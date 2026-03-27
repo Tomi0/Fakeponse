@@ -7,3 +7,23 @@ services:
       - .env
 #    volumes:
 #      - ./:/var/www/html
+    networks:
+      - fakeponse
+  postgresql:
+    image: dhi.io/postgres:18-alpine3.22
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: fakeponse
+    volumes:
+      - fakeponse-postgresql-data:/var/lib/postgresql
+    networks:
+      - fakeponse
+
+networks:
+  fakeponse:
+    driver: bridge
+
+volumes:
+  fakeponse-postgresql-data:
+    driver: local

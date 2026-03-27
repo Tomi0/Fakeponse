@@ -7,6 +7,7 @@ COPY composer.lock /app
 
 RUN composer install \
     --no-dev \
+    --ignore-platform-reqs \
     --optimize-autoloader \
     --no-interaction \
     --no-scripts \
@@ -21,7 +22,11 @@ RUN addgroup -g ${GID} user && adduser -u ${UID} -G user -s /bin/sh -D user
 
 WORKDIR /var/www/html
 
-RUN apk add --no-cache nginx supervisor
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN apk add --no-cache nginx supervisor postgresql-dev
+
+RUN docker-php-ext-install -j$(nproc) pdo pdo_pgsql
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --chmod=755 ./docker/entrypoint.sh /entrypoint.sh
