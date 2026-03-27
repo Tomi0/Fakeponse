@@ -35,6 +35,4 @@ COPY --chown=${UID}:${GID} . /var/www/html
 
 RUN chown ${UID}:${GID} -R /var/www/html
 
-RUN composer dump-autoload --optimize
-
 ENTRYPOINT ["/entrypoint.sh"]

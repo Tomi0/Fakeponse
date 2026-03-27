@@ -3,8 +3,7 @@ services:
     image: fakeponse:latest
     ports:
       - "8000:80"
-    environment:
-      APP_ENV: production
-      APP_KEY: base64:MAkdKa7dEJ2tpMIgKiHOyEAOGW/X0FvJFzFdyIpaQ8M=
+    env_file:
+      - .env
 #    volumes:
 #      - ./:/var/www/html
