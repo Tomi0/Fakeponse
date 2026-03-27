@@ -3,10 +3,10 @@ services:
     image: fakeponse:latest
     ports:
       - "8000:80"
-    env_file:
-      - .env
-#    volumes:
-#      - ./:/var/www/html
+    environment:
+      APP_ENV: local
+    volumes:
+      - ./:/var/www/html
     networks:
       - fakeponse
   postgresql:
