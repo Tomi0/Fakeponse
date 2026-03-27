@@ -1,7 +1,9 @@
 #!/bin/sh
 
-echo "Hola mundo"
-
-ls -lrta /var/www
+if [ "${APP_ENV}" == "production" ]; then
+    su user -c "php artisan optimize:clear"
+    su user -c "php artisan optimize"
+    su user -c "php artisan migrate --force"
+fi
 
 supervisord -c /etc/supervisor/conf.d/supervisor.conf
