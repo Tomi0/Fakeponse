@@ -19,6 +19,34 @@ services:
       - fakeponse-postgresql-data:/var/lib/postgresql
     networks:
       - fakeponse
+  auth-microservice:
+    image: tomi0/auth-microservice:latest
+    container_name: auth-microservice
+    ports:
+      - "8001:80"
+    environment:
+      APP_ENV: "production"
+      DB_HOST: "auth-microservice_db"
+      DB_PORT: "3306"
+      DB_DATABASE: "auth"
+      DB_USERNAME: "user"
+      DB_PASSWORD: "secret"
+    networks:
+      - fakeponse
+  auth-microservice_db:
+    image: mysql:8.4.6
+    container_name: auth-microservice_db
+    volumes:
+      - auth_db_volume:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - fakeponse
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_DATABASE: 'auth'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'secret'
 
 networks:
   fakeponse:
@@ -26,4 +54,6 @@ networks:
 
 volumes:
   fakeponse-postgresql-data:
+    driver: local
+  auth_db_volume:
     driver: local
