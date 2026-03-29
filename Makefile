@@ -5,6 +5,7 @@ build:
 	docker buildx build \
 					--build-arg UID=$(UID) \
 					--build-arg GID=$(GID) \
+					--build-arg APP_ENV=local \
 					-t fakeponse:latest .
 
 start:

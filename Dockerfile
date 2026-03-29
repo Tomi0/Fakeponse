@@ -24,9 +24,8 @@ WORKDIR /var/www/html
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-RUN apk add --no-cache nginx supervisor postgresql-dev
-
-RUN docker-php-ext-install -j$(nproc) pdo pdo_pgsql
+RUN apk add --no-cache nginx supervisor postgresql-dev && \
+    docker-php-ext-install -j$(nproc) pdo pdo_pgsql
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --chmod=755 ./docker/entrypoint.sh /entrypoint.sh
