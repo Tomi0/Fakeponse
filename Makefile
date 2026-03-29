@@ -19,3 +19,6 @@ stop:
 
 bash:
 	docker compose exec -it -u $(UID):$(GID) fakeponse /bin/sh
+
+test:
+	docker compose exec -it -u $(UID):$(GID) fakeponse ./vendor/bin/phpunit ./tests
